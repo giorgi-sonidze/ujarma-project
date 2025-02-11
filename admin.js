@@ -18,11 +18,34 @@ app.post('/addnews', (req, res) => {
     });
 });
 
-app.put('/news/:id', (req,res) => {
+app.post ('/addactivities', (req,res) => {
+  const {name ,description, days, created_date} = req.body;
+  const sql = 'INSERT INTO activities (name, description, days, created_date) VALUES (?, ?, ?, ?)';
+  connection.query(sql, [name ,description, days, created_date], (err, result) => {
+     if (err) {
+      return res.status(500).send('Error adding activity');
+     }
+     res.status(201).send('activity added successfully');
+  });
+});
+
+app.post ('/addsights', (req,res) => {
+  const {name, content, created_date} = req.body;
+  const sql = 'INSERT INTO sights (name, content, created_date) VALUES (?, ?, ?)';
+  connection.query(sql, [name ,content ,created_date], (err, result) => {
+    if (err) {
+      return res.status(500).send('Error adding sight');
+     }
+     res.status(201).send('sight added successfully');
+  });
+});
+
+
+app.put('/editnews/:id', (req,res) => {
     const newsId = req.params.id;
     const { title, content, created_date } = req.body;
 
-    if (!title || !content || !created_date) {
+    if (!title || !content ) {
         return res.status(400).json({ error: 'All fields (title, content, created_date) are required' });
     }
 

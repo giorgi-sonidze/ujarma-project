@@ -24,6 +24,29 @@ app.get('/news', (req, res) => {
 
 
 
+app.get('/news/:id', (req, res) => {
+  const id = req.params.id;
+  connection.query('SELECT * FROM news WHERE id = ' + id, (err, rows, fields) => {
+      if (err) throw err
+      res.json(rows[0])
+  })
+})
+
+app.get('/activities/:id', (req,res) => {
+  const id =req.params.id;
+  connection.query('SELECT * FROM activities WHERE id = ' + id, (err,rows, fields) => {
+    if (err) throw err
+    res.json(rows[0])
+
+  })
+})
+app.get('/sights/:id', (req,res) => {
+  const id = req.params.id;
+  connection.query('SELECT * FROM sights WHERE id = ' + id, (err, rows, fields) => {
+    if (err) throw err
+    res.json(rows[0])
+  })
+})
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
