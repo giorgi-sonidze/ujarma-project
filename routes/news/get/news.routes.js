@@ -1,25 +1,22 @@
+import { Router } from "express";
 import connection from "../../../config/db.conf.js"
-export default {
-  news: (connection) => (req, res) => {
-    connection.query('SELECT * FROM news', (err, results) => {
-      if (err) {
-        console.error("Error fetching news:", err);
-        return res.status(500).json({ error: "Database query failed" });
-      }
-      res.json(results);
-    });
-  },
+const router = express.Router();
+Router.get('/', async (req, res) => {
+  const query = `
+      SELECT 
+*    
+      FROM 
+          news
+     
+  `;
 
-  newsOne: (connection) => (req, res) => {
-    const id = req.params.id;
+  try {
+      const [rows] = await connection.query(query);
+      res.json(rows); // Send the result as JSON
+  } catch (err) {
+      console.error('Error executing query:', err);
+      res.status(500).send('Error fetching projects.');
+    }
+});
 
-    // Use a parameterized query to prevent SQL injection
-    connection.query('SELECT * FROM news WHERE id = ?', [id], (err, rows) => {
-      if (err) {
-        console.error("Error fetching news by ID:", err);
-        return res.status(500).json({ error: "Database query failed" });
-      }
-      res.json(rows[0] || { error: "News not found" }); // Handle case where no news is found
-    });
-  }
-};
+export default Router;

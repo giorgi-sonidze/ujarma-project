@@ -4,11 +4,12 @@ import newsRoutes from './routes/news/get/news.routes.js';
 import editnewsroutes from './routes/news/put/editnews.routes.js';
 import addnewsroutes from './routes/news/post/addnews.routes.js';
 import activitiesRoutes from './routes/activities/activities.routes.js';
+const router = express.Router();
 const app = express()
 const port = 3003
 // Middleware to parse JSON
 app.use(express.json());
-app.get('/news', newsRoutes.news(app, connection));
+app.use('/news', newsRoutes);
 app.get('/news/:id', newsRoutes.newsOne(app, connection));
 app.put('/editnews/:id', editnewsroutes.editnews(app, connection));
 app.post('/addnews', addnewsroutes.addnews(app, connection));
