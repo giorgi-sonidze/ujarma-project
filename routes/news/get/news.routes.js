@@ -1,3 +1,4 @@
+import connection from "../../../config/db.conf.js"
 export default {
   news: (connection) => (req, res) => {
     connection.query('SELECT * FROM news', (err, results) => {
