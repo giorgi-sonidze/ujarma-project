@@ -1,19 +1,24 @@
-
 export default {
-  news: (app, connection) => (req, res) => {
+  news: (connection) => (req, res) => {
     connection.query('SELECT * FROM news', (err, results) => {
       if (err) {
         console.error("Error fetching news:", err);
         return res.status(500).json({ error: "Database query failed" });
       }
-      res.json(results); // Send the fetched news as JSON
+      res.json(results);
     });
   },
-  newsOne: (app, connection) =>  (req, res) => {
+
+  newsOne: (connection) => (req, res) => {
     const id = req.params.id;
-    connection.query('SELECT * FROM news WHERE id = ' + id, (err, rows, fields) => {
-      if (err) throw err
-      res.json(rows[0])
-    })
-  }
-}
+
+    // Use a parameterized query to prevent SQL injection
+    connection.query('SELECT * FROM news WHERE id = ?', [id], (err, rows) => {
+      if (err) {
+        console.error("Error fetching news by ID:", err);
+        return res.status(500).json({ error: "Database query failed" });
+      }
+      res.json(rows[0] || { error: "News not found" }); // Handle case where no news is found
+    });
+  }
+};
