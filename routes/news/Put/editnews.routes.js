@@ -5,7 +5,7 @@ export default {
         const { title, content } = req.body;
 
         if (!title || !content) {
-            return res.status(400).json({ error: 'All fields (title, content, created_date) are required' });
+            return res.status(400).json({ error: 'All fields (title, content) are required' });
         }
 
         const sql = 'UPDATE news SET title = ?, content = ?  WHERE id = ? VALUES (?, ?)';
