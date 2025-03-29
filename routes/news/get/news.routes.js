@@ -1,8 +1,8 @@
-import db from "../../../config/db.conf.js"
+
 export default {
   news: (app, connection) => async (req, res) => {
     try {
-      const [rows] = await db.query('SELECT * FROM news ORDER BY id DESC');
+      const [rows] = await connection.query('SELECT * FROM news ORDER BY id DESC');
       res.json(rows);
     } catch (err) {
       console.error('Error executing query:', err);
