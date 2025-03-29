@@ -8,7 +8,7 @@ export default {
             return res.status(400).json({ error: 'All fields (title, content, created_date) are required' });
         }
 
-        const sql = 'UPDATE news SET title = ?, content = ?  WHERE id = ? VALUES';
+        const sql = 'UPDATE news SET title = ?, content = ?  WHERE id = ? VALUES(?, ?, ?)';
         connection.query(sql, [title, content, newsId]).then((result) => {
             if (result.affectedRows === 0) {
                 return res.status(404).json({ message: 'News not found' });
