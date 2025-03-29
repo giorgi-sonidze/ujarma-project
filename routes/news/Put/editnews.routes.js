@@ -10,9 +10,9 @@ export default {
 
         const sql = 'UPDATE news SET title = ?, content = ?  WHERE id = ? VALUES (?, ?)';
         connection.query(sql, [title, content, newsId]).then((result) => {
-          //  if () {
-          //      return res.status(404).json({ message: 'News not found' });
-         //   }
+             
+                return res.status(404).json({ message: 'News not found' });
+            
             res.status(200).json({ message: 'News updated successfully' });
         }).catch((err) => {
             console.error('Database Error:', err);
