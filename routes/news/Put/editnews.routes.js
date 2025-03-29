@@ -2,14 +2,14 @@
 export default {
     editnews: (app, connection) => (req, res) => {
         const newsId = req.params.id;
-        const { title, content, created_date } = req.body;
+        const { title, content } = req.body;
 
         if (!title || !content) {
             return res.status(400).json({ error: 'All fields (title, content, created_date) are required' });
         }
 
-        const sql = 'UPDATE news SET title = ?, content = ?, created_date = ? WHERE id = ?';
-        connection.query(sql, [title, content, created_date, newsId]).then((result) => {
+        const sql = 'UPDATE news SET title = ?, content = ?  WHERE id = ?';
+        connection.promise().query(sql, [title, content, newsId]).then((result) => {
             if (result.affectedRows === 0) {
                 return res.status(404).json({ message: 'News not found' });
             }
