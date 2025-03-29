@@ -1,25 +1,23 @@
-import connection from "../../../config/db.conf.js"
+import db from "../../../config/db.conf.js"
 export default {
-  news: (connection) => (req, res) => {
-    connection.query('SELECT * FROM news', (err, results) => {
-      if (err) {
-        console.error("Error fetching news:", err);
-        return res.status(500).json({ error: "Database query failed" });
-      }
-      res.json(results);
-    });
+  news: (app, connection) => async (req, res) => {
+    try {
+      const [rows] = await db.query('SELECT * FROM news ORDER BY id DESC');
+      res.json(rows);
+    } catch (err) {
+      console.error('Error executing query:', err);
+      return res.status(500).json({ error: "Database query failed" });
+    }
   },
 
-  newsOne: (connection) => (req, res) => {
+  newsOne: (app, connection) => async (req, res) => {
     const id = req.params.id;
-
-    // Use a parameterized query to prevent SQL injection
-    connection.query('SELECT * FROM news WHERE id = ?', [id], (err, rows) => {
-      if (err) {
-        console.error("Error fetching news by ID:", err);
-        return res.status(500).json({ error: "Database query failed" });
-      }
-      res.json(rows[0] || { error: "News not found" }); // Handle case where no news is found
-    });
-  }
+    try {
+      const [rows] = await db.query('SELECT * FROM news WHERE id = ?', [id]);
+      res.json(rows);
+    } catch (err) {
+      console.error('Error executing query:', err);
+      return res.status(500).json({ error: "Database query failed" });
+    }
+  }
 };

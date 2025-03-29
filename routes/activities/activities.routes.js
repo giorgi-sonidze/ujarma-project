@@ -1,12 +1,11 @@
-
 export default {
-    activities: (app, connection) => (req, res) => {
-      connection.query('SELECT * FROM activities', (err, results) => {
-        if (err) {
-          console.error("Error fetching activity:", err);
-          return res.status(500).json({ error: "Database query failed" });
-        }
-        res.json(results); // Send the fetched news as JSON
-      });
-    },
+  activities: (app, db) => async (req, res) => {
+    try {
+      const [rows] = await db.query('SELECT * FROM activities ORDER BY id DESC');
+      res.json(rows);
+    } catch (err) {
+      console.error('Error executing query:', err);
+      return res.status(500).json({ error: "Database query failed" });
+    }
+  },
 }
