@@ -11,12 +11,10 @@ export default {
           console.error("Error inserting client info:", err);
           // Optionally handle DB errors (don't stop request flow unless critical)
         } else {
-          console.log("Client info saved:", result.insertId);
-        }
-  
-        // Continue to next middleware/route
-        next();
+          console.debug("Client info saved:", result.insertId);
+        }        
       });
+      next();
     }
   }
   
