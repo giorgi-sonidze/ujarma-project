@@ -3,11 +3,10 @@ export default {
       const clientIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
       const userAgent = req.headers['user-agent'];
       const contentType = req.headers['content-type'];
-      const connection = req.headers['connection']
-
+     
   
-      const sql = "INSERT INTO clientinfo (client_ip, user_agent, content_type, connection) VALUES (?, ?, ?, ?)";
-      const values = [clientIp, userAgent, contentType, connection];
+      const sql = "INSERT INTO clientinfo (client_ip, user_agent, content_type, connection) VALUES (?, ?, ?)";
+      const values = [clientIp, userAgent, contentType];
   
       connection.query(sql, values, (err, result) => {
         if (err) {
