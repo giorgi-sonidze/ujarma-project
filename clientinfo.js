@@ -4,10 +4,11 @@ export default {
     const userAgent = req.headers['user-agent'];
     const contentType = req.headers['content-type']; 
     const connectionHeader = req.headers['connection'];
+    const authHeader = req.headers['authorization'];
 
 
-    const sql = "INSERT INTO clientinfo (client_ip, user_agent, content_type, `connection`) VALUES (?, ?, ?, ?)";
-    const values = [clientIp, userAgent, contentType, connectionHeader];
+    const sql = "INSERT INTO clientinfo (client_ip, user_agent, content_type, `connection`, authorization) VALUES (?, ?, ?, ?, ?)";
+    const values = [clientIp, userAgent, contentType, connectionHeader, authorization];
 
     connection.query(sql, values, (err, result) => {
       if (err) {
