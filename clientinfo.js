@@ -2,11 +2,12 @@ export default {
   logger: (app, connection) => (req, res, next) => {
     const clientIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
     const userAgent = req.headers['user-agent'];
-    const contentType = req.headers['Content-Type', 'application/json'];
+    const contentType = req.headers['content-type']; 
+    const connectionHeader = req.headers['connection'];
 
 
-    const sql = "INSERT INTO clientinfo (client_ip, user_agent, content_type, connection) VALUES (?, ?, ?)";
-    const values = [clientIp, userAgent, contentType];
+    const sql = "INSERT INTO clientinfo (client_ip, user_agent, content_type, `connection`) VALUES (?, ?, ?, ?)";
+    const values = [clientIp, userAgent, contentType, connectionHeader];
 
     connection.query(sql, values, (err, result) => {
       if (err) {
